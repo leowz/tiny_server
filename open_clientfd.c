@@ -19,7 +19,7 @@ int		open_clientfd(char *ip, int port)
 
 	if ((clientfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
-		ft_printf("client socket fail\n");
+		printf("client socket fail\n");
 		return (-1);
 	}
 	serveraddr.sin_family = AF_INET;
@@ -28,7 +28,7 @@ int		open_clientfd(char *ip, int port)
 	if (connect(clientfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr))
 				< 0)
 	{
-		ft_printf("connect fail\n");
+		printf("connect fail\n");
 		return (-1);
 	}
 	return (clientfd);

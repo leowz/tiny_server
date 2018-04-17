@@ -79,13 +79,13 @@ $(OBJ_PATH):
 	@mkdir $(OBJ_PATH) 2> /dev/null
 
 clean:
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(OBJS1)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 	@printf $(GREEN)"$(NAME) clean\n"$(EOC)
 	@make -C $(LIB_PATH) clean
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	@/bin/rm -f $(NAME) $(NAME1)
 	@printf $(GREEN)"$(NAME) fclean\n"$(EOC)
 	@/bin/rm -f $(LIB)
 	@printf $(GREEN)"$(LIB) fclean\n"$(EOC)

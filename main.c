@@ -21,8 +21,11 @@ int		main(int ac, char **av)
 	char				*haddrp;
 	char				*line;
 
-	ac > 2 ? (port = ft_atoi(av[1])) : (port = 80);
-	listenfd = open_listenfd(port);
+	ac > 1 ? (port = ft_atoi(av[1])) : (port = 80);
+	if ((listenfd = open_listenfd(port)) < 0)
+	{
+		printf("open listenfd fails!\n");
+	}
 	while (1)
 	{
 		clientlen = sizeof(clientaddr);
@@ -31,8 +34,8 @@ int		main(int ac, char **av)
 		
 		while ((n = get_next_line(connfd, &line)) > 0)
 		{
-			ft_printf("server received %d bytes\n", n);
-			ft_printf("%s\n", line);
+			printf("server received %d bytes\n", ft_strlen(line));
+			printf("%s\n", line);
 			ft_strdel(&line);
 		}
 		close(connfd);

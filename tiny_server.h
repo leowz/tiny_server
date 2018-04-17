@@ -17,6 +17,7 @@
 # include <sys/types.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
+# include <stdio.h>
 # include "libft.h"
 # include "ft_printf.h"
 

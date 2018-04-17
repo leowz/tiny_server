@@ -19,7 +19,7 @@ int		main(int ac, char **av)
 
 	if (ac != 3)
 	{
-		ft_printf("useage: %s <ip> <port>\n", av[0]);
+		printf("useage: %s <ip> <port>\n", av[0]);
 		return (1);
 	}
 	ip = av[1];
@@ -27,13 +27,13 @@ int		main(int ac, char **av)
 
 	if ((clientfd = open_clientfd(ip, port)) < 0)
 	{
-		ft_printf("open client fail\n");
+		printf("open client fail\n");
 		return (1);
 	}
 	while ((n = get_next_line(STDIN_FILENO, &line)) > 0)
 	{
-		ft_printf("write %s\n", line);
-		ft_dprintf(clientfd, "%s\n", line);
+		printf("write %s\n", line);
+		dprintf(clientfd, "%s\n", line);
 		ft_strdel(&line);
 	}
 	close(clientfd);
