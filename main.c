@@ -25,6 +25,7 @@ int		main(int ac, char **av)
 	if ((listenfd = open_listenfd(port)) < 0)
 	{
 		printf("open listenfd fails!\n");
+		return (-1);
 	}
 	while (1)
 	{
@@ -34,7 +35,7 @@ int		main(int ac, char **av)
 		
 		while ((n = get_next_line(connfd, &line)) > 0)
 		{
-			printf("server received %d bytes\n", ft_strlen(line));
+			printf("server received %zu bytes\n", ft_strlen(line));
 			printf("%s\n", line);
 			ft_strdel(&line);
 		}
