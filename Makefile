@@ -6,7 +6,7 @@
 #    By: zweng <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/09 18:11:43 by zweng             #+#    #+#              #
-#    Updated: 2018/04/17 19:07:40 by zweng            ###   ########.fr        #
+#    Updated: 2018/04/17 21:49:17 by zweng            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ HEADER = tiny_server.h
 
 SRC_PATH = .
 
-SRC_NAME = main.c open_listenfd.c 
+SRC_NAME = main.c open_listenfd.c handle_request.c serve_static.c\
+		   client_error.c serve_dynamic.c
 SRC_NAME1 = client.c open_clientfd.c 
 
 OBJ_PATH = obj
