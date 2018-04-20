@@ -6,7 +6,7 @@
 /*   By: zweng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 20:14:37 by zweng             #+#    #+#             */
-/*   Updated: 2018/04/17 21:44:58 by zweng            ###   ########.fr       */
+/*   Updated: 2018/04/20 15:33:12 by zweng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,26 @@
 
 int		parse_uri(char *uri, char *filename, char *cgiargs)
 {
+	char	*ptr;
+
+	ptr = NULL;
 	if (ft_strstr(uri, ".php"))
 	{
+		printf("dynam content\n");
+		if ((ptr = ft_strchr(uri, '?')))
+		{
+			ft_strcpy(cgiargs, ptr + 1);
+			*ptr = '\0';
+		}
+		else
+			ft_strcpy(cgiargs, "");
+		ft_strcpy(filename, ".");
+		ft_strcat(filename, uri);
 		return (0);	
 	}
 	else
 	{
+		printf("static content\n");
 		ft_strcpy(cgiargs, "");
 		ft_strcpy(filename, ".");
 		ft_strcat(filename, uri);
@@ -29,19 +43,49 @@ int		parse_uri(char *uri, char *filename, char *cgiargs)
 	}
 }
 
+void	get_headers(int fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		get_next_line(fd, &line);
+		if(line && !ft_strcmp(line, "\r"))
+		{
+			ft_strdel(&line);
+			return ;
+		}
+		printf("%s\n", line);
+		ft_strdel(&line);
+	}
+}
+
+int		get_request_line(int fd, char *reql)
+{
+	char	*line;
+
+	if (get_next_line(fd, &line) <= 0)
+	{
+		printf("get request line fail\n");
+		return (FUN_FAIL);
+	}
+	printf("%s\n", line);
+	ft_strcpy(reql, line);
+	ft_strdel(&line);
+	return (FUN_SUCS);
+}
+
 void	handle_request(int fd)
 {
 	int				is_static;
-	struct stat 	sbuf;
-	char			*reqline;
-	char			method[MAXLINE], uri[MAXLINE], version[MAXLINE];
+	struct stat
+		sbuf;
+	char			reqline[MAXLINE], method[MAXLINE],
+					uri[MAXLINE], version[MAXLINE];
 	char			filename[MAXLINE], cgiargs[MAXLINE];
 
-	if (get_next_line(fd, &reqline) <= 0)
-	{
-		printf("get request line fail\n");
+	if (!get_request_line(fd, reqline))
 		return ;
-	}
 	sscanf(reqline, "%s %s %s", method, uri, version);
 	if (ft_strcmp(method, "GET"))
 	{
@@ -49,7 +93,7 @@ void	handle_request(int fd)
 				"This method is not supported");
 		return ;
 	}
-	//TODO: handle headers
+	get_headers(fd);
 	is_static = parse_uri(uri, filename, cgiargs);
 	if (stat(filename, &sbuf) < 0)
 	{
